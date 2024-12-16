@@ -1,3 +1,7 @@
 # Git ignore file for Barnacles
 .DS_Store
 best_model.pth
+processed
+test
+train
+val
