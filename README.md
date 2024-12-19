@@ -1,130 +1,130 @@
-# National Park Service - Barnacles
-## DALI Challenge
-### Author: Arnav Singh
+# National Park Service - Barnacles  
+## DALI Challenge  
+### Author: Arnav Singh  
 
-## Overview
+## Overview  
 
-This repository contains the code and documentation for a prototype system designed to help Natinoal Park Service scientists count barnacles in images more efficiently. Effectively, the goal is to automate the process of counting barnacles within a fixed-size frame in images, reducing the time and effort required for laborious manual counting, so that scientists can use their time for the greater good. 
+This repository contains the code and documentation for a prototype system designed to assist National Park Service scientists in efficiently counting barnacles in images. By automating this process, the aim is to reduce the time and effort required for laborious manual counting, enabling scientists to focus on higher-level research tasks.  
 
-The project explores various approaches, including traditional computer vision techniques, basic machine learning models, and advanced deep learning models like Vision Transformers (ViTs) from a paper I read from researchers at Google Brain (https://arxiv.org/abs/2010.11929). The repository includes a Jupyter Notebook that documents the entire process, from data preprocessing to the model evaluation.
+The project explores a comprehensive approach that includes data preprocessing, exploratory data analysis (EDA), basic Convolutional Neural Networks (CNNs), and state-of-the-art Vision Transformers (ViTs) for semantic segmentation. Through experimentation and evaluation, the project demonstrates potential solutions while addressing challenges such as small datasets and the contouring of Barnacles.  
 
 ---
 
-## Repository Structure
+## Repository Structure  
 
-```
+```plaintext
 barnacle-counting-challenge/
-├── README.md                   # This file
-├── barnacle.ipynb              # Main Jupyter Notebook
-├── requirements.txt            # List of dependencies
-├── Barnacles/            # Directory for given data
+├── README.md                   # Project documentation (this file)
+├── barnacle.ipynb              # Jupyter Notebook documenting the process and results
+├── requirements.txt            # Python dependencies
+├── Barnacles/                  # Provided dataset
 │   ├── img1.png
 │   ├── img2.png
 │   ├── mask1.png
 │   ├── mask2.png
 │   └── unseen_img1.png
-└── utils/                      
-    └── preprocessing.py
-```
+└── barnacle_py/                # Custom Python utilities
+    └── utils.py
+```  
+> [!NOTE]
+> Data Processing adds directories `processed`, `test`, `train`, and `val` to the project structure on your local machine.
 
 ---
 
-## First thoughts for an Approach
+## Approach  
 
-First we can tackle this challenge by looking at each segment of a typical ML pipeline:
+### Steps in the Solution  
 
-1. **Data Loading & Preprocessing**: The images and masks need to be loaded, normalized, and resized to a consistent size for processing. Additionally, the dataset given does not include a lot of images, rather we have to somehow create our own to train the models to count barnacles. For this task, we can crop the framed image into even smaller segments, which should be easier for the model to identify the contours. Additionally, a trick is to rotate the images to basically double/triple/quadruple our dataset for training. Overall, from the two images we have `img1.png` and `img2.png`, we should be able to have >200 samples to train our model on.
+1. **Data Loading & Preprocessing**:  
+   - Images and masks were resized, normalized, and segmented into smaller grid-based patches for more effective training. 
+   ![alt text](pictures/cropped.png) 
+   - Rotations were applied to artificially expand the dataset size, given the limited number of images.  
 
-2. **Exploratory Data Analysis (EDA)**: Visualizations of the images and masks are created to understand the data better.
+2. **Exploratory Data Analysis (EDA)**:  
+   - Explored dataset characteristics, such as barnacle coverage, resolution, and morphological traits.
+   ![alt text](pictures/eda.png)  
+   ![alt text](pictures/histogram.png)
+   - Visualized random image-mask pairs to verify preprocessing quality.  
 
-3. **Basic Model Exploration**: A simple Convolutional Neural Network (CNN) is implemented to establish a baseline for barnacle detection.
+3. **Modeling**:  
+   - **Baseline Model**: Implemented a CNN (based on ResNet-50) for binary segmentation. Achieved reasonable performance and set the stage for more advanced approaches.
+  
+   - **Vision Transformer (ViT)**: Built a ViT-based model inspired by recent research in segmentation tasks. While it demonstrated promise, it was computationally intensive and underperformed due to dataset size limitations.  
 
-4. **SOTA Model (Vision Transformer)**: A Vision Transformer (ViT) is implemented to explore its potential for higher accuracy.
+4. **Results and Analysis**:  
+   - Evaluated the models on the task of barnacle segmentation and counting.  
+   - Explored the trade-offs between model complexity, performance, and computational requirements.  
 
-5. **Results and Analysis**: The performance of both models is evaluated and compared.
+5. **Counting and Contour Detection**:  
+   - Post-processed model predictions to count barnacles using contour detection algorithms in OpenCV.  
 
-
-6. **Conclusions and Next Steps**: Insights from the prototype are summarized, and potential improvements are discussed.
+6. **Conclusions and Next Steps**:  
+   - Summarized insights gained from the project and proposed directions for improving the system.  
 
 ---
 
-## How to Run the Code
+## How to Run the Code  
 
-### Prerequisites
+### Prerequisites  
 
-1. **Install Dependencies**: Ensure you have the necessary libraries installed. You can install them using the `requirements.txt` file:
+1. **Install Dependencies**: Install the required libraries using `requirements.txt`:
    ```bash
    pip install -r requirements.txt
-   ```
+   ```  
 
-2. **Download the Data**: Place the provided images and masks in the `Barnacles/` directory. The required files are:
-   - `img1.png`, `img2.png` (example images)
-   - `mask1.png`, `mask2.png` (corresponding masks)
-   - `unseen_img1.png` (unlabeled test image)
+2. **Prepare the Dataset**:  
+   Place the provided images and masks in the `Barnacles/` directory. Ensure the directory structure matches the repository layout.  
 
-3. **Run the Jupyter Notebook**:
-   - Open the `barnacle.ipynb` notebook in Jupyter or any compatible environment (e.g., VSCode, Google Colab).
-   - Run the cells sequentially to execute the code and see the results.
+3. **Run the Notebook**:  
+   Open `barnacle.ipynb` in Jupyter Notebook or a similar environment. Run the cells sequentially to replicate the results.  
 
 ---
 
-## Dependencies
+## Results  
 
-The project uses the following Python libraries:
-- `numpy`
-- `pandas`
-- `opencv-python`
-- `matplotlib`
-- `scikit-learn`
-- `tensorflow`
-- `transformers` (for Vision Transformer)
+- **Baseline CNN**: Achieved a validation loss of approximately 0.2146, demonstrating its ability to perform barnacle segmentation with reasonable accuracy.  
+- **Vision Transformer**: Despite its advanced architecture, the ViT struggled to generalize effectively due to the small dataset and achieved higher validation loss compared to the CNN.  
+- **Counting Accuracy**: Contour-based methods successfully counted barnacles in the model predictions, though further refinement is needed to improve precision.  
 
-You can install all dependencies using the `requirements.txt` file:
+---
+
+## Learning and Next Steps  
+
+This project provided hands-on experience in computer vision and deep learning for real-world ecological applications. Key takeaways include:  
+- Developing familiarity with OpenCV for preprocessing and contour detection.  
+- Understanding CNNs and Vision Transformers for semantic segmentation tasks.  
+- Overcoming challenges of limited datasets through augmentation techniques like rotations and grid-based cropping.  
+
+**Next Steps**:  
+- Expand the dataset with more diverse images to improve model robustness.  
+- Explore hyperparameter tuning and pretrained segmentation-specific ViTs for better performance.  
+- Refine contour detection algorithms for more precise barnacle counting.  
+- Develop a user-friendly interface (e.g., using Streamlit) to deploy the system for field use by scientists.  
+
+---
+
+## Dependencies  
+
+Key Python libraries required for the project include:  
+- `torch`, `torchvision`  
+- `opencv-python`  
+- `matplotlib`  
+- `numpy`  
+- `pandas`  
+- `tqdm`  
+- `einops` (for Vision Transformers)  
+
+Install all dependencies using:  
 ```bash
 pip install -r requirements.txt
-```
+```  
 
 ---
 
-## Results
+## Contact  
 
-- **Basic CNN Model**: Achieved a reasonable accuracy on the task of barnacle detection, serving as a good baseline.
-- **Vision Transformer (ViT)**: Showed potential for higher accuracy, especially with more complex data. However, it requires more computational resources and fine-tuning.
+**Author**: Arnav Singh  
+**Email**: arnav.singh.26@dartmouth.edu  
+**GitHub**: [arnavsingh0](https://github.com/arnavsingh0)  
 
----
-
-## Conclusions
-
-The prototype demonstrates that automating barnacle counting is feasible using machine learning and deep learning techniques. While the basic CNN model provides a solid starting point, the Vision Transformer offers a promising direction for future work. Key takeaways include:
-- Data preprocessing and augmentation are critical for improving model performance.
-- Advanced models like ViTs can achieve higher accuracy but require more data and computational resources.
-- Integrating human feedback into the pipeline could further enhance the system's reliability.
-
----
-
-## Learning and Next Steps
-
-This project was an excellent opportunity to explore various machine learning and deep learning techniques for image processing. Key learnings include:
-- Understanding the challenges of working with limited annotated data.
-- Gaining hands-on experience with Vision Transformers, inspired by recent research papers.
-- Learning how to evaluate and compare different models effectively.
-
-**Next Steps**:
-1. Collect more annotated data to improve model training.
-2. Fine-tune the Vision Transformer for better performance.
-3. Develop an interactive interface (e.g., using Streamlit) to allow scientists to correct model predictions and provide feedback.
-
----
-
-## Submission Notes
-
-This repository is part of my application for the DALI Lab. The code and documentation demonstrate my ability to approach an open-ended data problem, explore different solutions, and implement a functional prototype. I hope this work showcases my immense enthusiasm for data science and machine learning, in a way that you all found wonderful!
-
----
-
-## Contact
-
-If you have any questions or feedback, feel free to reach out:
-- **Name**: Arnav Singh
-- **Email**: arnav.singh.26@dartmouth.edu
-- **GitHub**: arnavsingh0
+This project was completed as part of the DALI Lab data challenge, showcasing my ability to explore open-ended problems and implement practical solutions. I appreciate everyone who is reading this, thank you!
