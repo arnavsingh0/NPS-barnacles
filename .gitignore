@@ -5,3 +5,4 @@ processed
 test
 train
 val
+unet_barnacle_best.pth
