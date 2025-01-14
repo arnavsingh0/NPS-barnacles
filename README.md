@@ -45,11 +45,14 @@ barnacle-counting-challenge/
    ![alt text](pictures/eda.png)  
    ![alt text](pictures/histogram.png)
    - Visualized random image-mask pairs to verify preprocessing quality.  
+   - Identified contours via rectangle
+   ![alt text](pictures/rect.png)
 
 3. **Modeling**:  
-   - **Baseline Model**: Implemented a CNN (based on ResNet-50) for binary segmentation. Achieved reasonable performance and set the stage for more advanced approaches.
-  
-   - **Vision Transformer (ViT)**: Built a ViT-based model inspired by recent research in segmentation tasks. While it demonstrated promise, it was computationally intensive and underperformed due to dataset size limitations.  
+   - **Baseline Model**: Implemented a CNN (based on Unet) for binary segmentation. Achieved reasonable performance and set the stage for more advanced approaches.
+  ![alt text](pictures/unetmodel.png)
+
+   - **Vision Transformer (ViT)**: Built a ViT-based model inspired by recent research in segmentation tasks. While it demonstrated promise, it was computationally intensive and underperformed due to dataset size limitations. Would probably need access to an HPC to run it efficiently (perhaps even discovery) 
 
 4. **Results and Analysis**:  
    - Evaluated the models on the task of barnacle segmentation and counting.  
@@ -90,16 +93,10 @@ barnacle-counting-challenge/
 
 ## Learning and Next Steps  
 
-This project provided hands-on experience in computer vision and deep learning for real-world ecological applications. Key takeaways include:  
-- Developing familiarity with OpenCV for preprocessing and contour detection.  
-- Understanding CNNs and Vision Transformers for semantic segmentation tasks.  
-- Overcoming challenges of limited datasets through augmentation techniques like rotations and grid-based cropping.  
+For me personally, this project provided hands-on experience in computer vision and deep learning for real-world ecological applications, even if its just barnacles. I developed a familiarity with OpenCV for preprocessing and contour detection. I began to understanding CNNs and Vision Transformers for semantic segmentation tasks. Finally, I overcame the challenges of limited datasets through augmentation techniques like rotations and grid-based cropping.  
 
 **Next Steps**:  
-- Expand the dataset with more diverse images to improve model robustness.  
-- Explore hyperparameter tuning and pretrained segmentation-specific ViTs for better performance.  
-- Refine contour detection algorithms for more precise barnacle counting.  
-- Develop a user-friendly interface (e.g., using Streamlit) to deploy the system for field use by scientists.  
+For the future, I would hope to expand the dataset with more diverse images to improve model (no bimodality). Explore hyperparameter tuning and pretrained segmentation-specific ViTs for better performance (GridSearchCV). Refine the contour detection algorithms for more precise barnacle counting, and develop a user-friendly interface (using the suggested Streamlit) to deploy the system for field use by scientists.  
 
 ---
 
